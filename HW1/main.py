@@ -104,7 +104,7 @@ def different_corpora():
     """
 
     print(
-        "The 5 words that we found whose top 10 neighbors based on the news corpus are very similar to their top 10 neighbors based on the twitter corpus are 'boy', 'coat', 'often', 'balck' and 'meat'.")
+        "The 5 words that we found whose top 10 neighbors based on the news corpus are very similar to their top 10 neighbors based on the twitter corpus are 'white', 'green', 'blue', 'gray' and 'red'")
 
     words = {'white', 'green', 'blue', 'gray', 'red'}
     for i in words:

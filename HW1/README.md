@@ -18,4 +18,4 @@ By running `main.py` script, you will have to choose which command you want to e
 **Note:** The project using the models: `word2vec-google-news-300`, `glove-wiki-gigaword-200`, `glove-twitter-200`, so it may take a while to load them.   
 
 ### Authors
-Shani Finkelstein & Devora Siminovski
+Shani Finkelstein & Devora Siminovsky
