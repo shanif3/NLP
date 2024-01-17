@@ -8,7 +8,7 @@ a report which presents the results for all the specified tasks.
 
 ### How to use
 The project includes 5 files: `main.py`, `README.md`, `word2vec.pkl`, `twit_model.pkl` and `wiki_news_model.pkl`.   
-By running `main.py` script, you will have to choose which coomand you want to excaute: 
+By running `main.py` script, you will have to choose which command you want to execute: 
 - enerating lists of the most similar words
 - Polysemous Words
 - Synonyms and Antonyms
