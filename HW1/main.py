@@ -166,6 +166,7 @@ def plot_words_2d():
     plt.title('2D Word Vectors Scatter Plot')
     plt.legend()
     plt.savefig('plot.png')
+    print("The plot is saved as a png file, under the name: plot.png, to your current working director")
 
 
 if __name__ == '__main__':
@@ -174,7 +175,7 @@ if __name__ == '__main__':
         choice = input(
             "We are offering multiple methods to run, what would you like to choose?\n 1.Generating lists of the most similar words\n2.Polysemous Words\n3.Synonyms and Antonyms\n4.The Effect of Different Corpora\n5.Plotting words in 2D\n5.Exit\nMy choice is:")
         if choice == '1':
-            generate_most_smilar_words()
+            generate_most_similar_words()
         elif choice == '2':
             polysemous_words()
         elif choice == '3':
