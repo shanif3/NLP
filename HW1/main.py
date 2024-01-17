@@ -36,7 +36,7 @@ else:
         twit_model = model
 
 
-def generate_most_smilar_words():
+def generate_most_similar_words():
 
     """
     Generating lists of the most similar words
@@ -142,44 +142,30 @@ def plot_words_2d():
     # Taking the first 5000 words in the vocabulary
     voc_5000 = word2vec_model.index_to_key[1:5001]
 
-    voc_endswith = [word for word in voc_5000 if
-                    word.endswith('ed') or word.endswith('ing')]  # we gonna be left with 708 words as expected
+    selected_words = [word for word in voc_5000 if word.endswith("ed") or word.endswith("ing")]
 
     # creating a matrix with 708 rows, where each row is a 300-dim vector for one word
     # We are using word2vec-google-news-300 model that has word vectors with a dimensionality of 300
-    matrix = np.array([model[word] for word in voc_endswith])
+    selected_vectors = np.array([model[word] for word in selected_words])
 
     # One way of dimensionality reduction is via the PCA algorithm
     pca = decomposition.PCA(n_components=2)
-    words_2d_vector = pca.fit_transform(matrix)
+    words_2d_vector = pca.fit_transform(selected_vectors)
 
     # Plot the resulting 2-d vectors
-    ed_words = [word for word in voc_endswith if word.endswith("ed")]
-    matrix_ed = np.array([model[word] for word in ed_words])
-
-    ing_words = [word for word in voc_endswith if word.endswith("ing")]
-    matrix_ing = np.array([model[word] for word in ing_words])
+    ed_indices = [i for i, word in enumerate(selected_words) if word.endswith("ed")]
+    ing_indices = [i for i, word in enumerate(selected_words) if word.endswith("ing")]
 
     plt.figure(figsize=(10, 6))
 
-    # plotting words ending with 'ed' in blue
-    plt.scatter(matrix_ed[0], matrix_ed[1],
-                color='blue',
-                label='Ends with "ed"'
-                )
-
-    # plotting words ending with "ing" in green
-    plt.scatter(
-        matrix_ing[0], matrix_ing[1],
-        color='green',
-        label='Ends with "ing"'
-    )
+    plt.scatter(words_2d_vector[ed_indices, 0], words_2d_vector[ed_indices, 1], color='blue', label='ed')
+    plt.scatter(words_2d_vector[ing_indices, 0], words_2d_vector[ing_indices, 1], color='green', label='ing')
 
     plt.xlabel('PCA Component 1')
     plt.ylabel('PCA Component 2')
     plt.title('2D Word Vectors Scatter Plot')
     plt.legend()
-    plt.show()
+    plt.savefig('plot.png')
 
 
 if __name__ == '__main__':
