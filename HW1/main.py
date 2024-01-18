@@ -19,7 +19,7 @@ else:
 
 if os.path.exists('wiki_news_model.pkl'):
     with open('wiki_news_model.pkl', 'rb') as model_file:
-        word2vec_model = pickle.load(model_file)
+        wiki_news_model = pickle.load(model_file)
 else:
     model = dl.load("glove-wiki-gigaword-200")
     with open('wiki_news_model.pkl', 'wb') as model_file:
@@ -46,7 +46,7 @@ def generate_most_similar_words():
     # choosing 5 words for vocab
     voc_list = ['game', 'back', 'now', 'some', 'million']
     for i in voc_list:
-        print(f"'{i}' most similar: {word2vec_model.most_similar(i, topn=20)}")
+        print(f"'{i}' most similar:\n{word2vec_model.most_similar(i, topn=20)}\n")
 
 
 def polysemous_words():
@@ -123,11 +123,12 @@ def different_corpora():
     for i in words:
         list1 = wiki_news_model.most_similar(i)
         list2 = twit_model.most_similar(i)
-        print(f"list1: {list1}\n list2: {list2}")
         words1 = [pair[0] for pair in list1]
         words2 = [pair[0] for pair in list2]
         common_words = set(words1) & set(words2)
         print(f"Similarity score for the word {i}: {len(common_words)} out of 10 ")
+        print(f"list1: {list1}\n list2: {list2}")
+
 
 
 def plot_words_2d():
