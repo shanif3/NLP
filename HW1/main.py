@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 from sklearn import decomposition
 
-
 print("Welcome!\nFirst, we are loading the models, it may take a while.")
 
 if os.path.exists('word2vec.pkl'):
@@ -37,7 +36,6 @@ else:
 
 
 def generate_most_similar_words():
-
     """
     Generating lists of the most similar words
     Choose 5 words in the vocabulary, and for each of them generate the list of 20 most similar
@@ -50,7 +48,6 @@ def generate_most_similar_words():
 
 
 def polysemous_words():
-
     """
     Polysemous Words
     Find three polysemous words (words with at least two different meanings) such that
@@ -78,9 +75,7 @@ def polysemous_words():
         print("\n")
 
 
-
 def synonyms_antonyms():
-
     """
     Synonyms are words that share the same meaning. Antonyms are words that have an opposite meaning (like “cold” and “hot”).
     We gonna find a triplet of words (w1, w2, w3) such that all of the conditions hold.
@@ -94,7 +89,6 @@ def synonyms_antonyms():
 
 
 def different_corpora():
-
     """
     In this section, we would like to compare models based on two sources.
     The first model is based on wikipedia and news text, and the second based on twitter data.
@@ -130,9 +124,7 @@ def different_corpora():
         print(f"list1: {list1}\n list2: {list2}")
 
 
-
 def plot_words_2d():
-
     """
     Dimensionality reduction is a technique by which you take n-dimensional data and transform it
     into m-dimensional data (m < n), while attempting to maintain properties (such as distances) of
@@ -170,11 +162,52 @@ def plot_words_2d():
     print("The plot is saved as a png file, under the name: plot.png, to your current working director")
 
 
+def calc_ap(words_rel):
+    """calculates ap measure for given binary vector of similarities."""
+    len_rel = len(words_rel)
+    counter = 0
+    for r in range(len_rel):
+        # calculate prec for each place in vector that has value 1, and sum
+        prec = sum(words_rel[0:r + 1]) / (r + 1)
+        counter += prec * words_rel[r]
+    # divide by number of non-zero elements
+    ap = counter / words_rel.count(1)
+    return ap
+
+
+def calc_map(words):
+    ap_sum = 0
+    # calculate ap for each word in vector and than calc mean of ap - MAP.
+    for word_rel in words:
+        ap_sum += calc_ap(word_rel)
+    map = ap_sum / len(words)
+    return map
+
+
+def MAP():
+    #calculating MAP for each method and judgement using calc_map function
+    print("MAP measure for word2vec first judgement:")
+    print(calc_map([[1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1],
+                    [0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0]]))
+    print()
+    print("MAP measure for ChatGPT first judgement:")
+    print(calc_map([[1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0],
+                    [1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1]]))
+    print()
+    print("MAP measure for word2vec second judgement:")
+    print(calc_map([[1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1],
+                    [1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1]]))
+    print()
+    print("MAP measure for ChatGPT second judgement:")
+    print(calc_map([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0],
+                    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]))
+
+
 if __name__ == '__main__':
     flag = True
     while flag:
         choice = input(
-            "We are offering multiple methods to run, what would you like to choose?\n 1.Generating lists of the most similar words\n2.Polysemous Words\n3.Synonyms and Antonyms\n4.The Effect of Different Corpora\n5.Plotting words in 2D\n5.Exit\nMy choice is:")
+            "We are offering multiple methods to run, what would you like to choose?\n 1.Generating lists of the most similar words\n2.Polysemous Words\n3.Synonyms and Antonyms\n4.The Effect of Different Corpora\n5.Plotting words in 2D\n6.MAP evaluation.\n7.Exit\nMy choice is:")
         if choice == '1':
             generate_most_similar_words()
         elif choice == '2':
@@ -186,6 +219,8 @@ if __name__ == '__main__':
         elif choice == '5':
             plot_words_2d()
         elif choice == '6':
+            MAP()
+        elif choice == '7':
             flag = False
         else:
             print("Invalid choice. Please enter a number between 1 and 6.")
