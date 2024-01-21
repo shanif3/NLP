@@ -15,8 +15,8 @@ By running `main.py` script, you will have to choose which command you want to e
 - Synonyms and Antonyms.
 - The Effect of Different Corpora.
 - Plotting words in 2D (the plot is saved as a png file to your current working directory).
-- MAP evaluation
-- 
+- MAP evaluation.
+
 **Note:** The project using the models: `word2vec-google-news-300`, `glove-wiki-gigaword-200`, `glove-twitter-200`, so it may take a while to load them.   
 
 ### Authors
