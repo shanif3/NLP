@@ -12,11 +12,11 @@ import re
 # pip install gensim
 # pip install nltk
 
-model_name = "roberta-base"
-tokenizer = RobertaTokenizer.from_pretrained(model_name)
-model = RobertaModel.from_pretrained(model_name)
 
 def warm_up():
+    model_name = "roberta-base"
+    tokenizer = RobertaTokenizer.from_pretrained(model_name)
+    model = RobertaModel.from_pretrained(model_name)
     sentence = "I am so <mask>"
     input_ids = tokenizer.encode(sentence, return_tensors="pt")
     output = model(input_ids)
@@ -104,11 +104,11 @@ def warm_up():
 
     print(cosine_similarity(am_vector, two_vector))
 
-# Find two sentences that share the same word, such that the cosine similarity between the word vectors in the two sentences is very high.
+    # Find two sentences that share the same word, such that the cosine similarity between the word vectors in the two sentences is very high.
 
-#to put here
+    # to put here
 
-# Find two sentences that share the same word, such that the cosine similarity between the word vectors in the two sentences is very low.
+    # Find two sentences that share the same word, such that the cosine similarity between the word vectors in the two sentences is very low.
 
     sentence1 = "The cat gracefully jumps over the wall of water, but sadly fell. he will be okay."
     sentence2 = "The wall of the library is lined with shelves full of a lot of books."
@@ -144,20 +144,19 @@ def warm_up():
 
     print(cosine_similarity(am_vector, two_vector))
 
-
-#Find a sentence with n words, that is tokenized into m > n tokens by the tokenizer.
+    # Find a sentence with n words, that is tokenized into m > n tokens by the tokenizer.
     sentence_n_word = "I'm so happy"
     tokens = tokenizer.tokenize(sentence_n_word)
     print(
         f" for the sentence 'I'm so happy' that has {len(sentence_n_word.split())} words has been tokinze into {len(tokens)} words")
-def task_11():
+
+def word_pos_train():
     with open("ass1-tagger-train", 'r') as file:
         lines = file.readlines()
         word_pos_list = [word for line in lines for word in line.split()]
 
     word_types_freq = {}
     pos_freq = {}
-    # Print the result
     for word_pos in word_pos_list:
         last_slash = word_pos.rfind("/")
         word = word_pos[:last_slash]
@@ -173,7 +172,10 @@ def task_11():
         else:
             word_types_freq[word] = {pos: 1}
 
-    most_frequent_types = {word: max(types_freq, key=types_freq.get) for word, types_freq in word_types_freq.items()}
+    most_frequent_types_in_train = {word: max(types_freq, key=types_freq.get) for word, types_freq in word_types_freq.items()}
+    return most_frequent_types_in_train
+def task_11():
+    most_frequent_types = word_pos_train()
 
     # NO LABELS
     with open("ass1-tagger-dev-input", 'r') as file:
@@ -181,7 +183,6 @@ def task_11():
         words = [word for line in lines for word in line.split()]
 
     tokens = [word.lower() for word in words]
-    dict_stickers = {}
     dict_stickers = {word: most_frequent_types.get(word, rules(word, tokens)) for word in tokens}
     # WITH LABELS
     with open("ass1-tagger-dev", 'r') as file:
@@ -195,17 +196,16 @@ def task_11():
         pos = word_pos[last_slash + 1:]
         dict_labels[word.lower()] = pos
 
+    accuracy(dict_stickers, dict_labels)
+
+def accuracy(dict_stickers, dict_labels):
     true_positives = 0
     for word, pos in dict_stickers.items():
         if word.lower() in dict_labels and dict_labels.get(word.lower()) == dict_stickers.get(word.lower()):
             true_positives += 1
-
-    print(true_positives / len(dict_stickers))
-
-
+    return true_positives / len(dict_stickers)
 
 def rules(word, tokens):
-    prev_word = tokens.index(word) - 1
     if word[0].isdigit():
         return 'CD'
     if word.endswith('ly'):
@@ -222,9 +222,9 @@ def rules(word, tokens):
     if word.endswith('er'):
         return 'JJR'
 
-    if tokens[prev_word] == 'the':
+    if tokens[tokens.index(word) - 1] == 'the':
         return 'NNP'
-    if tokens[prev_word] in ['he', 'she', 'it', 'they']:
+    if tokens[tokens.index(word) - 1] in ['he', 'she', 'it', 'they']:
         return 'VBD'
 
     if word.endswith('al') or word.endswith('y') or word.endswith('ous') or word.endswith('ical') or word.endswith(
@@ -243,6 +243,119 @@ def rules(word, tokens):
 
 
 
+
+def task12():
+    acc = 0
+    window_size = 0
+    dict_stickers = {}
+    best_acc=0
+    best_window=0
+    dict_labels=word_pos_train()
+    trainset_without_labels("ass1-tagger-train", "ass1-tagger-train-no-labels")
+    with open("ass1-tagger-dev-input", 'r') as file:
+        lines = file.read()
+    for window_size in range(1, 8, 2):
+        print(f"checking for window size: {window_size}")
+        # for each window size, train the model- the model is trained on each line in the file
+        most_frequent_types = static_word_vectors(window_size)
+        # for each window size, predict the most likely type of each word in the file based on the max frequency of the type
+        dict_stickers = {word.lower(): most_frequent_types.get(word.lower(), not_in_train(word.lower(), most_frequent_types,window_size)) for i in
+                  lines for word in i.split()}
+        if accuracy(dict_stickers, dict_labels)> best_acc:
+            best_acc = accuracy(dict_stickers, dict_labels)
+            best_window = window_size
+        # add loop for min acc over i.
+
+    # Train Word2Vec model on all text - from file
+
+    #check the accuracy of the model
+    print(f"best accuracy: {best_acc} with window size of {best_window}")
+    # save model to pickle?
+
+
+# process train file to be without labels.
+def extract_words_without_labels(line):
+    word_pos_list = line.split()
+    words = []
+    for word_pos in word_pos_list:
+        last_slash = word_pos.rfind("/")
+        word = word_pos[:last_slash]
+        type_of_word = word_pos[last_slash + 1:]
+        word = word.lower()
+        words.append(word)
+    return words
+
+
+def word2vec_for_line(word_types_freq, window_size, line):
+    # Train Word2Vec model
+    # Get the words from the line without the labels
+    words_in_line = extract_words_without_labels(line)
+    # Train the model on the words in the line
+    model_word2vec = Word2Vec([words_in_line], vector_size=300, window=window_size, min_count=0)
+
+    # Extract the word and its type from the line
+    word_pos_list = line.split()
+    for word_pos in word_pos_list:
+        last_slash = word_pos.rfind("/")
+        word = word_pos[:last_slash]
+        type_of_word = word_pos[last_slash + 1:]
+        word = word.lower()
+
+        # Extract the vector for the words
+        word_vector = model_word2vec.wv[word]
+        word_vector_as_tuple = tuple(word_vector)
+
+        if word_vector_as_tuple in word_types_freq:
+            if type_of_word in word_types_freq[word_vector_as_tuple]:
+
+                word_types_freq[word_vector_as_tuple][type_of_word] += 1
+            else:
+                word_types_freq[word_vector_as_tuple][type_of_word] = 1
+        else:
+            word_types_freq[word_vector_as_tuple] = {type_of_word: 1}
+    return word_types_freq
+
+
+def not_in_train(word, most_frequent_types, window_size):
+    with open("ass1-tagger-train-no-labels", 'r') as train_file:
+        train_words = [line.strip() for line in train_file]
+
+    word2vec_model = Word2Vec(train_words, vector_size=300, window=window_size,
+                              min_count=0, workers=4)
+
+    if word in word2vec_model.wv.key_to_index:
+        similar_words = word2vec_model.wv.most_similar(word, topn=5)
+        for similar_tuple in similar_words:
+            similar = similar_tuple[0]
+            if similar.lower() in most_frequent_types:
+                return most_frequent_types.get(similar.lower())
+
+    return "NNP"
+
+
+# shani - proccess train to file with no labels
+def trainset_without_labels(input_filename, output_filename):
+    with open(input_filename, 'r') as input_file:
+        with open(output_filename, 'w') as output_file:
+            for line in input_file:
+                words_in_line = extract_words_without_labels(line)
+                # Write the processed line to the output file
+                for i in words_in_line:
+                    output_file.write(i+' ')
+
+
+
+def static_word_vectors(window_size):
+    with open("ass1-tagger-train", 'r') as file:
+        word_types_freq = {}
+        for line in file:
+            word_types_freq = word2vec_for_line(word_types_freq, window_size, line)
+    # Determine the most frequent type for each word in the line
+    most_frequent_types = {word_vector: max(types_freq, key=types_freq.get) for word_vector, types_freq in
+                           word_types_freq.items()}
+    return most_frequent_types
+
+
 if __name__ == "__main__":
-    warm_up()
-    task_11()
+    # warm_up()
+    task12()
