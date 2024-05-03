@@ -1,0 +1,68 @@
+ball
+  The dog retrieved the tennis ball with ease, bringing it back to his owner.
+  The child was excited to receive a new ball for her birthday and couldn't wait to start playing with it.
+The children played a lively game of soccer, kicking the ball back and forth with enthusiasm.
+  The child was thrilled to catch the ball during the game of catch.
+  The child was fascinated by the colorful balloons at the party.
+  The child was thrilled to receive a new toy ball as a birthday present.
+  The gymnast executed a flawless routine on the balance beam, ending with a graceful leap onto a ball.
+  The gymnast gracefully executed a series of flips and twists, ending her routine with a stunning landing on the balance beam.
+  The children played with the bouncing ball, laughing and chasing it around the park.
+
+computer
+  The student used her computer to research and write her paper for the history class.
+  The student spent hours researching for their project on the computer.
+  He spent hours tinkering with the code on his computer, trying to find the bug.
+  The scientist used a powerful computer to analyze the data and make predictions for the upcoming experiment.
+  Scientists use computers to analyze vast amounts of data and make predictions about future trends.
+  The scientist conducted extensive research and analyzed the data using advanced algorithms on her computer.
+  I'm using my computer to write this message.
+  The computer has revolutionized the way we work, communicate, and access information.
+  The programmer spent countless hours debugging the code on her computer to ensure the software ran smoothly.
+
+beautiful
+  The sunset painted the sky with a breathtaking array of colors, creating a beautiful scene that took my breath away.
+  The sunset painted the sky with a palette of warm colors, creating a beautiful scene that took my breath away.
+  The sunset painted the sky with a breathtaking array of colors, making the world seem like a magical place, and reminding us all that life is indeed beautiful.
+  The sunset painted the sky with a breathtaking array of colors, creating a beautiful moment that will be cherished forever.
+  "The sunset over the mountains was a beautiful sight to behold."
+
+funny
+  The comedian's jokes were so bad, they were actually funny.
+  The comedian's jokes were so funny that the whole audience couldn't stop laughing.
+  "The way my cat always jumps on the table and knocks over my water glass is both annoying and funny."
+  The comedian's jokes about everyday life were hilariously funny.
+  The cat's playful antics while chasing the laser pointer never fail to bring a smile to my face and make me laugh out loud.
+  The comedian's jokes were so bad, they were actually funny.
+  The cat's playful antics always left me in stitches, it was just so funny!
+  The comedian's jokes were so bad, they were actually funny.
+  The comedian's jokes about technology were so relatable and funny, the whole audience couldn't stop laughing.
+
+happy
+  As she received the surprise birthday party her friends had planned for her, she was overwhelmed with joy and happiness.
+  As the sun set over the ocean, the couple strolled hand in hand, feeling grateful for each other's company and happy for the future they were building together.
+  As she watched the sun set over the mountains, she felt a sense of peace and contentment wash over her, leaving her feeling truly happy.
+  The sun shining brightly on a beautiful day made her feel happy and grateful for the simple pleasures in life.
+  As she watched the sunset over the ocean, she felt a sense of peace and contentment wash over her, making her feel truly happy.
+  "The sunny weather and beautiful scenery made their hike a memorable and happy experience."
+  "After overcoming many challenges, she finally achieved her goal and felt an overwhelming sense of happiness."
+  As she watched the sunset over the ocean, she felt a sense of peace and happiness wash over her.
+  After finishing her project and receiving an A, she felt a sense of accomplishment and happiness.
+
+talk
+  I'm happy to hear that you're feeling better, let's catch up and have a chat.
+  Let's take a break and grab some coffee before we dive into the project details and talk.
+  It's important to have open and honest communication with your loved ones, so don't hesitate to talk about your feelings and concerns.
+  I'm glad we had the chance to catch up and I look forward to our next talk.
+  "Feeling overwhelmed? Don't worry, I'm here to listen and help you work through it - just let's talk."
+
+quickly
+  She finished her homework quickly so she could go play outside.
+  She finished her homework quickly so she could go play outside.
+  She finished her homework quickly so she could go play outside.
+  She finished her homework quickly so she could go play outside.
+  She finished her work quickly and went out to play.
+  She finished her homework quickly so she could go play outside.
+  Practicing regularly will help you master a new skill quickly.
+  She finished her homework quickly so she could go play outside.
+  I finished my work in record time and quickly moved on to the next project.
